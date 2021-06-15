@@ -1,0 +1,47 @@
+<div class="container">
+
+    <header>
+        <h3 class="mt-4 text-center">Register Form</h3>
+    </header>
+
+    <main class='register row mt-4'>
+        <form class='col-8 col-md-6' [formGroup]='registerForm'>
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" formControlName="firstName" class="form-control input-sm">
+            </div>
+    
+            <div class="form-group">
+            <label for="secondName">Second Name</label>
+            <input type="text" formControlName="secondName" class="form-control">
+            </div>
+    
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" formControlName="email" class="form-control">
+            </div>
+    
+            <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" formControlName="password" class="form-control">
+            </div>
+
+             <div class='register--errors' *ngIf="registerForm.get('password')?.touched">
+                <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('required')">*Please enter the password</span>
+                <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('minlength')">*Password must have at least 8 characters</span>
+                <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('pattern')">*Password must contain at least 1 uppercase and 1 lowercase</span>
+                <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('firstName')">*Password must not contain first name</span>
+                <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('secondName')">*Password must not contain second name</span>
+             </div>
+        
+            <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" formControlName="confirmPassword" class="form-control">
+            </div>
+            <div *ngIf="registerForm.get('confirmPassword')?.touched">
+                <p class="text-danger" *ngIf="registerForm.get('confirmPassword')?.hasError('isMatching')">*Please enter the same password</p>
+              </div>
+        </form>
+    </main>
+
+</div>
