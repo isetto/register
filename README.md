@@ -1,7 +1,7 @@
 Scripts:
-npm run start - starts the application
-npm run test - starts unit tests
-npm run cypress:open - opens cypress tab with start tests button
+1. npm run start - starts the application
+2. npm run test - starts unit tests
+3. npm run cypress:open - opens cypress tab with start tests button
 
 Decisions:
 1. I created only one component with form and submit button, I was thinkng about separating form to another component and register logic to another but I would have to use Output which is ok but then Input to tell form it can be cleared after http succeed so I decided to keep it simple (KISS).
