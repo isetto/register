@@ -1,11 +1,20 @@
-.register{
+@mixin flex-column{
     display: flex;
     flex-direction: column;
+}
+
+.register{
+    @include flex-column();
     align-items: center;
+   
+    form{
+        background-color: rgba(0,0,0,0.05);
+        padding: 20px;
+        border-radius: 30px;
+    }
 
     &--errors{
-            display: flex;
-            flex-direction: column;
+        @include flex-column();
     }
 
     &--btn{
