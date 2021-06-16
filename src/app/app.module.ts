@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ErrorHandleInterceptor } from './interceptors/error-handle.interceptor';
 
-@NgModule({
+@NgModule( {
   declarations: [
     AppComponent,
     RegisterComponent
@@ -24,8 +24,8 @@ import { ErrorHandleInterceptor } from './interceptors/error-handle.interceptor'
     ToastrModule.forRoot(),
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorHandleInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorHandleInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
-})
+} )
 export class AppModule { }

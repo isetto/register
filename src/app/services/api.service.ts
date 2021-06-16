@@ -3,18 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../model/user';
-import { exhaust} from 'rxjs/operators';
+import { exhaust } from 'rxjs/operators';
 
-@Injectable({
+@Injectable( {
   providedIn: 'root'
-})
+} )
 export class ApiService {
   baseUrl = environment.url
 
-  constructor(private httpClient: HttpClient) { }
+  constructor( private httpClient: HttpClient ) { }
 
-  register(user: User): Observable<User>{
+  register( user: User ): Observable<User> {
     const url = `${this.baseUrl}users`
-    return this.httpClient.post<User>(url, user)
+    return this.httpClient.post<User>( url, user )
   }
 }
