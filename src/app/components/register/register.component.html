@@ -2,56 +2,61 @@
 
     <div class='register row mt-4 mb-4'>
         <form class='col-8 col-md-6' [formGroup]='registerForm'>
-            <h3 class="text-center">Register Form</h3>
-            <div class="form-group">
-                <label for="firstName">First Name</label>
-                <input type="text" formControlName="firstName" class="form-control input-sm">
-            </div>
-
-            <div class="form-group">
-                <label for="lastName">Last Name</label>
-                <input type="text" formControlName="lastName" class="form-control">
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" formControlName="email" class="form-control">
-            </div>
-            <div *ngIf="registerForm.get('email')?.touched">
-                <p class="text-danger" *ngIf="registerForm.get('email')?.hasError('pattern')">*Please enter correct
-                    email, ex: test@gmail.com</p>
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" formControlName="password" class="form-control">
-            </div>
-
-            <div class='register--errors' *ngIf="registerForm.get('password')?.touched">
-                <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('required')">*Please enter the
-                    password</span>
-                <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('minlength')">*Password must
-                    have at least 8 characters</span>
-                <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('pattern')">*Password must
-                    contain at least 1 uppercase and 1 lowercase</span>
-                <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('firstName')">*Password must not
-                    contain first name</span>
-                <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('lastName')">*Password must not
-                    contain last name</span>
-            </div>
-
-            <div class="form-group">
-                <label for="confirmPassword">Confirm Password</label>
-                <input type="password" formControlName="confirmPassword" class="form-control">
-            </div>
-            <div *ngIf="registerForm.get('confirmPassword')?.touched">
-                <p class="text-danger" *ngIf="registerForm.get('confirmPassword')?.hasError('isMatching')">*Please enter
-                    the same password</p>
-            </div>
-
-            <div class='register--btn mt-4'>
-                <button #registerBtn class='btn btn-success' [disabled]="!registerForm.valid">Register</button>
-            </div>
+            <header>
+                <h3 class="text-center">Register Form</h3>
+            </header>
+            
+            <main>
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" formControlName="firstName" class="form-control input-sm">
+                </div>
+    
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" formControlName="lastName" class="form-control">
+                </div>
+    
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" formControlName="email" class="form-control">
+                </div>
+                <div *ngIf="registerForm.get('email')?.touched">
+                    <p class="text-danger" *ngIf="registerForm.get('email')?.hasError('pattern')">*Please enter correct
+                        email, ex: test@gmail.com</p>
+                </div>
+    
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" formControlName="password" class="form-control">
+                </div>
+    
+                <div class='register--errors' *ngIf="registerForm.get('password')?.touched">
+                    <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('required')">*Please enter the
+                        password</span>
+                    <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('minlength')">*Password must
+                        have at least 8 characters</span>
+                    <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('pattern')">*Password must
+                        contain at least 1 uppercase and 1 lowercase</span>
+                    <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('firstName')">*Password must not
+                        contain first name</span>
+                    <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('lastName')">*Password must not
+                        contain last name</span>
+                </div>
+    
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" formControlName="confirmPassword" class="form-control">
+                </div>
+                <div *ngIf="registerForm.get('confirmPassword')?.touched">
+                    <p class="text-danger" *ngIf="registerForm.get('confirmPassword')?.hasError('isMatching')">*Please enter
+                        the same password</p>
+                </div>
+    
+                <div class='register--btn mt-4'>
+                    <button #registerBtn class='btn btn-success' [disabled]="!registerForm.valid">Register</button>
+                </div>
+            </main>
         </form>
     </div>
 
