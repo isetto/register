@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
         exhaustMap( () => this.register() )
       )
       .subscribe( ( user: User ) => {
-        this.toastr.success( `${user.firstName} your account has been created`, 'Succes' )
+        this.toastr.success( `${user.firstName} your account has been created`, 'Success' )
         this.registerForm.reset()
       } )
   }
