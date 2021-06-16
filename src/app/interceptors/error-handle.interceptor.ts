@@ -20,7 +20,7 @@ export class ErrorHandleInterceptor implements HttpInterceptor {
         const errors = error.error.errors
         if ( errors?.length > 0 ) {
           errors.forEach( ( err: any ) => {
-            this.toastr.error( err?.name, 'Error' );
+            this.toastr.error( err?.name || err?.description, 'Error' );
           } )
 
         }

@@ -81,7 +81,7 @@ describe('register page', ()=>{
     })
 
     describe('register function', ()=>{
-        it('fill all inputs and click register, expect toast and cleared form', ()=>{
+        it('fill all inputs and click register, expect toast and cleared form', {defaultCommandTimeout: 10000}, ()=>{
                 cy.get(`input[formcontrolname="firstName"]`)
                     .type('Adrian')
             

@@ -16,21 +16,20 @@ import { emailRegex } from 'src/app/constants/email-regex';
 } )
 export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   registerForm!: FormGroup;
-  private subscription: Subscription = new Subscription
+  private controlsSubscription: Subscription = new Subscription
   @ViewChild( 'registerBtn' ) button: any;
-  clicks$!: Subscription;
+  clicksSubscription!: Subscription;
 
   constructor( private fb: FormBuilder, private validateService: ValidatorService, private apiService: ApiService, private toastr: ToastrService ) { }
-
 
   ngOnInit(): void {
     this.initializeForm()
   }
 
   ngAfterViewInit(): void {
-    this.clicks$ = fromEvent( this.button.nativeElement, 'click' )
+    this.clicksSubscription = fromEvent( this.button.nativeElement, 'click' )
       .pipe(
-        exhaustMap( () => this.register() )
+        exhaustMap( () => this.register() ) //exhaustMap is used here to prevent sending multiple http calls by clicking register btn few times
       )
       .subscribe( ( user: User ) => {
         this.toastr.success( `${user.firstName} your account has been created`, 'Success' )
@@ -56,23 +55,23 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       password: ['', [Validators.required, Validators.minLength( 8 ), Validators.pattern( '^(?=.*?[a-z])(?=.*?[A-Z]).*$' ), this.validateService.isSubstring( 'firstName' ), this.validateService.isSubstring( 'lastName' )]],
       confirmPassword: ['', [Validators.required, this.validateService.matchValues( 'password' )]]
     } )
-    this.subscription.add( this.registerForm.controls.password.valueChanges.subscribe( () => {
+    this.controlsSubscription.add( this.registerForm.controls.password.valueChanges.subscribe( () => {
       this.registerForm.controls.confirmPassword.updateValueAndValidity()
     } ) )
-    this.subscription.add( this.registerForm.controls.firstName.valueChanges.subscribe( () => {
+    this.controlsSubscription.add( this.registerForm.controls.firstName.valueChanges.subscribe( () => {
       this.registerForm.controls.password.updateValueAndValidity()
     } ) )
-    this.subscription.add( this.registerForm.controls.lastName.valueChanges.subscribe( () => {
+    this.controlsSubscription.add( this.registerForm.controls.lastName.valueChanges.subscribe( () => {
       this.registerForm.controls.password.updateValueAndValidity()
     } ) )
   }
 
   ngOnDestroy(): void {
-    if ( this.subscription ) {
-      this.subscription.unsubscribe()
+    if ( this.controlsSubscription ) {
+      this.controlsSubscription.unsubscribe()
     }
-    if ( this.clicks$ ) {
-      this.clicks$.unsubscribe()
+    if ( this.clicksSubscription ) {
+      this.clicksSubscription.unsubscribe()
     }
   }
 
