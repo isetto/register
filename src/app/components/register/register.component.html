@@ -20,6 +20,9 @@
                 <label for="email">Email</label>
                 <input type="email" formControlName="email" class="form-control">
             </div>
+            <div *ngIf="registerForm.get('email')?.touched">
+                <p class="text-danger" *ngIf="registerForm.get('email')?.hasError('pattern')">*Please enter correct email, ex: test@gmail.com</p>
+            </div>
     
             <div class="form-group">
             <label for="password">Password</label>
