@@ -7,6 +7,7 @@ import { ValidatorService } from 'src/app/services/validator.service';
 import { fromEvent } from 'rxjs';
 import { exhaustMap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { emailRegex } from 'src/app/constants/email-regex';
 
 @Component( {
   selector: 'app-register',
@@ -34,7 +35,6 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe( ( user: User ) => {
         this.toastr.success( `${user.firstName} your account has been created`, 'Succes' )
         this.registerForm.reset()
-        this.registerForm.updateValueAndValidity()
       } )
   }
 
@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     this.registerForm = this.fb.group( {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.pattern( /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ )]],
+      email: ['', [Validators.required, Validators.pattern( emailRegex )]],
       password: ['', [Validators.required, Validators.minLength( 8 ), Validators.pattern( '^(?=.*?[a-z])(?=.*?[A-Z]).*$' ), this.validateService.isSubstring( 'firstName' ), this.validateService.isSubstring( 'lastName' )]],
       confirmPassword: ['', [Validators.required, this.validateService.matchValues( 'password' )]]
     } )
