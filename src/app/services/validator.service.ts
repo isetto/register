@@ -16,9 +16,9 @@ export class ValidatorService {
 
   isSubstring(matchTo: string): ValidatorFn{
     return (control: { [key: string]: any } | null) => { 
-      const value = control?.value.toLowerCase()
-      const matchToValue = control?.parent?.controls[matchTo].value.toLowerCase()
-      if(!matchToValue || matchToValue === '') return null
+      const value = control?.value?.toLowerCase()
+      const matchToValue = control?.parent?.controls[matchTo].value?.toLowerCase()
+      if(!matchToValue || matchToValue === '' || !value || value === '') return null
       return !value.includes(matchToValue) ?  null : { [matchTo]: true };
     }
   }
