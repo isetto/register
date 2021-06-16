@@ -10,16 +10,26 @@ export class ValidatorService {
 
   matchValues( matchTo: string ): ValidatorFn {
     return ( control: { [key: string]: any } | null ) => {
-      return control?.value === control?.parent?.controls[matchTo].value ? null : { isMatching: true };
+      const value = control?.value
+      const matchToValue = control?.parent?.controls[matchTo].value
+      return this.matchCheck( value, matchToValue )
     }
+  }
+
+  matchCheck( value: string, matchToValue: string ) {
+    return value === matchToValue ? null : { isMatching: true };
   }
 
   isSubstring( matchTo: string ): ValidatorFn {
     return ( control: { [key: string]: any } | null ) => {
       const value = control?.value?.toLowerCase()
       const matchToValue = control?.parent?.controls[matchTo].value?.toLowerCase()
-      if ( !matchToValue || matchToValue === '' || !value || value === '' ) return null
-      return !value.includes( matchToValue ) ? null : { [matchTo]: true };
+      return this.substringCheck( value, matchToValue, matchTo )
     }
+  }
+
+  substringCheck( value: string | undefined, matchToValue: string | undefined, matchTo: string ) {
+    if ( !matchToValue || matchToValue === '' || !value || value === '' ) return null
+    return !value.includes( matchToValue ) ? null : { [matchTo]: true };
   }
 }

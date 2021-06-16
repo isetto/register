@@ -28,7 +28,7 @@ describe( 'ApiService', () => {
     expect( apiService ).toBeTruthy();
   } );
 
-  fit( 'should save the user data and return it', () => {
+  it( 'should save the user data and return it', () => {
 
     const user: User = {
       firstName: 'Adrian',
