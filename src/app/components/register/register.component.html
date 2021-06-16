@@ -12,8 +12,8 @@
             </div>
     
             <div class="form-group">
-            <label for="secondName">Second Name</label>
-            <input type="text" formControlName="secondName" class="form-control">
+            <label for="lastName">Last Name</label>
+            <input type="text" formControlName="lastName" class="form-control">
             </div>
     
             <div class="form-group">
@@ -31,7 +31,7 @@
                 <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('minlength')">*Password must have at least 8 characters</span>
                 <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('pattern')">*Password must contain at least 1 uppercase and 1 lowercase</span>
                 <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('firstName')">*Password must not contain first name</span>
-                <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('secondName')">*Password must not contain second name</span>
+                <span class="text-danger" *ngIf="registerForm.get('password')?.hasError('lastName')">*Password must not contain last name</span>
              </div>
         
             <div class="form-group">
@@ -40,6 +40,10 @@
             </div>
             <div *ngIf="registerForm.get('confirmPassword')?.touched">
                 <p class="text-danger" *ngIf="registerForm.get('confirmPassword')?.hasError('isMatching')">*Please enter the same password</p>
+              </div>
+
+              <div class='register--btn mt-4'>
+                <button #registerBtn class='btn btn-success'  [disabled]="!registerForm.valid">Register</button>
               </div>
         </form>
     </main>

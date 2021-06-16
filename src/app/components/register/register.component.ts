@@ -1,30 +1,59 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
+import { User } from 'src/app/model/user';
+import { ApiService } from 'src/app/services/api.service';
 import { ValidatorService } from 'src/app/services/validator.service';
+import {fromEvent} from 'rxjs';
+import { catchError, exhaustMap } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   registerForm!: FormGroup;
   private subscription: Subscription = new Subscription
+  @ViewChild('registerBtn') button: any;
+  clicks$: Subscription = new Subscription
   
-  constructor(private fb: FormBuilder, private validateService: ValidatorService) { }
+  constructor(private fb: FormBuilder, private validateService: ValidatorService,  private apiService: ApiService, private toastr: ToastrService) { }
  
 
   ngOnInit(): void {
     this.initializeForm()
   }
 
-  initializeForm(){
+  ngAfterViewInit(): void {
+    this.clicks$ = fromEvent(this.button.nativeElement, 'click')
+    .pipe(
+      exhaustMap(() => this.register())
+      )
+    .subscribe((user: User)=> {
+      this.toastr.success(`${user.firstName} your account has been created`, 'Succes')
+      this.registerForm.reset()
+      this.registerForm.updateValueAndValidity()
+    })
+  }
+
+  register(): Observable<User> {
+    const controls = this.registerForm.controls
+    const user: User = {
+      firstName: controls.firstName.value,
+      lastName: controls.lastName.value,
+      email: controls.email.value
+    }
+    return this.apiService.register(user)
+  }
+
+  initializeForm(): void{
     this.registerForm = this.fb.group({
       firstName: ['', Validators.required],
-      secondName: ['', Validators.required],
+      lastName: ['', Validators.required],
       email: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*?[a-z])(?=.*?[A-Z]).*$'), this.validateService.isSubstring('firstName'), this.validateService.isSubstring('secondName')]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*?[a-z])(?=.*?[A-Z]).*$'), this.validateService.isSubstring('firstName'), this.validateService.isSubstring('lastName')]],
       confirmPassword: ['', [Validators.required, this.validateService.matchValues('password')]]
     })
     this.subscription.add(this.registerForm.controls.password.valueChanges.subscribe(()=>{
@@ -33,16 +62,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.subscription.add(this.registerForm.controls.firstName.valueChanges.subscribe(()=>{
       this.registerForm.controls.password.updateValueAndValidity()
     }))
-    this.subscription.add(this.registerForm.controls.secondName.valueChanges.subscribe(()=>{
+    this.subscription.add(this.registerForm.controls.lastName.valueChanges.subscribe(()=>{
       this.registerForm.controls.password.updateValueAndValidity()
     }))
   }
 
-
-
   ngOnDestroy(): void {
     if(this.subscription){
       this.subscription.unsubscribe()
+    }
+    if(this.clicks$){
+      this.clicks$.unsubscribe()
     }
   }
 
